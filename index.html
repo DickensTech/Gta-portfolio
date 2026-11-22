@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grand Theft Developer · Dickens, Full-Stack Developer</title>
+    <meta name="description" content="Portfolio of Dickens, a full-stack developer in Nairobi. Fan-made GTA VI-style portfolio. Not affiliated with Rockstar Games." />
+
+    <!-- Preload fonts -->
+    <link rel="preload" href="/src/assets/fonts/outfit-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/barlow-condensed-900.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <!--
+      Inline loader shown instantly while React + JS load.
+      Matches the .loading-screen exactly so there's never a black frame.
+      React's LoadingScreen component takes over once it mounts; this
+      static version is hidden by it (same z-index, same background).
+    -->
+    <div id="static-loader" style="
+      position:fixed;inset:0;z-index:9999;
+      display:flex;align-items:center;justify-content:center;
+      background:#07080d;
+    ">
+      <img
+        src="/src/assets/brand/loader-logo.svg"
+        alt=""
+        aria-hidden="true"
+        style="
+          width:clamp(180px,32vw,420px);
+          opacity:0.12;
+          filter:invert(1);
+          user-select:none;
+          pointer-events:none;
+          animation:lp 2s ease-in-out infinite;
+        "
+      />
+      <style>
+        @keyframes lp{0%,100%{opacity:.08;transform:scale(1)}50%{opacity:.18;transform:scale(1.03)}}
+      </style>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // Remove the static loader once React paints its own LoadingScreen
+      const obs = new MutationObserver(() => {
+        if (document.querySelector('.loading-screen')) {
+          document.getElementById('static-loader')?.remove()
+          obs.disconnect()
+        }
+      })
+      obs.observe(document.getElementById('root'), { childList: true, subtree: true })
+    </script>
+  </body>
+</html>
